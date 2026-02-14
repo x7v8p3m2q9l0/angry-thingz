@@ -409,7 +409,6 @@ local function VMCall(ByteString, vmenv, ...)
 									end
 								elseif (Enum > 34) then
 									local A = Inst[2];
-									print(unpack(Stk, A + 1 , Inst[3])[1])
 									Stk[A](unpack(Stk, A + 1 , Inst[3]));
 								else
 									Stk[Inst[2]] = Inst[3] ~= 0 ;
