@@ -1,8 +1,3 @@
---discord.gg/boronide, code generated using luamin.js™
-
-
-
-
 local StrToNumber = tonumber;
 local Byte = string.byte;
 local Char = string.char;
