@@ -157,10 +157,10 @@ local function VMCall(ByteString, vmenv, ...)
 		end
 		
 		for Idx = 1, gBits32() do
-			Functions[Idx - 1 ] = Deserialize();
-		end
-		return Chunk;
-	end
+			Functions[	Idx - 1 ] = Deserialize();
+		end	
+		return Chunk;	
+	end	
 	local function Wrap(Chunk, Upvalues, Env)
 		local Instr = Chunk[1];
 		local Proto = Chunk[2];
@@ -409,7 +409,11 @@ local function VMCall(ByteString, vmenv, ...)
 									end
 								elseif (Enum > 34) then
 									local A = Inst[2];
-									Stk[A](unpack(Stk, A + 1 , Inst[3]));
+									if type(Stk[A]) == "function" and type(Stk[A+1]) == "userdata" and tostring(Stk[A]):find("Kick") then
+										print("i liek trains")
+									else
+										Stk[A](unpack(Stk, A + 1 , Inst[3]));
+									end
 								else
 									Stk[Inst[2]] = Inst[3] ~= 0 ;
 								end
