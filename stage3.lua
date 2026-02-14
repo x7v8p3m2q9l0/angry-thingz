@@ -1,18 +1,36 @@
----@diagnostic disable: deprecated
+--discord.gg/boronide, code generated using luamin.js™
+
+
+
+
+local StrToNumber = tonumber;
+local Byte = string.byte;
+local Char = string.char;
+local Sub = string.sub;
+local Subg = string.gsub;
+local Rep = string.rep;
+local Concat = table.concat;
+local Insert = table.insert;
+local LDExp = math.ldexp;
 local GetFEnv = getfenv or function()
 	return _ENV;
 end ;
+local Setmetatable = setmetatable;
+local PCall = pcall;
+local Select = select;
+local Unpack = unpack or table.unpack ;
+local ToNumber = tonumber;
 local function VMCall(ByteString, vmenv, ...)
 	local DIP = 1;
 	local repeatNext;
-	ByteString = string.gsub(string.sub(ByteString, 5), "..", function(byte)
-		if (string.byte(byte, 2) == 81) then
-			repeatNext = tonumber(string.sub(byte, 1, 1));
+	ByteString = Subg(Sub(ByteString, 5), "..", function(byte)
+		if (Byte(byte, 2) == 81) then
+			repeatNext = StrToNumber(Sub(byte, 1, 1));
 			return "";
 		else
-			local a = string.char(tonumber(byte, 16));
+			local a = Char(StrToNumber(byte, 16));
 			if repeatNext then
-				local b = string.rep(a, repeatNext);
+				local b = Rep(a, repeatNext);
 				repeatNext = nil;
 				return b;
 			else
@@ -30,17 +48,17 @@ local function VMCall(ByteString, vmenv, ...)
 		end
 	end
 	local function gBits8()
-		local a = string.byte(ByteString, DIP, DIP);
+		local a = Byte(ByteString, DIP, DIP);
 		DIP = DIP + 1 ;
 		return a;
 	end
 	local function gBits16()
-		local a, b = string.byte(ByteString, DIP, DIP + 2 );
+		local a, b = Byte(ByteString, DIP, DIP + 2 );
 		DIP = DIP + 2 ;
 		return (b * 256) + a ;
 	end
 	local function gBits32()
-		local a, b, c, d = string.byte(ByteString, DIP, DIP + 3 );
+		local a, b, c, d = Byte(ByteString, DIP, DIP + 3 );
 		DIP = DIP + 4 ;
 		return (d * 16777216) + (c * 65536) + (b * 256) + a ;
 	end
@@ -61,7 +79,7 @@ local function VMCall(ByteString, vmenv, ...)
 		elseif (Exponent == 2047) then
 			return ((Mantissa == 0) and (Sign * (1 / 0))) or (Sign * NaN) ;
 		end
-		return math.ldexp(Sign, Exponent - 1023 ) * (IsNormal + (Mantissa / (2 ^ 52))) ;
+		return LDExp(Sign, Exponent - 1023 ) * (IsNormal + (Mantissa / (2 ^ 52))) ;
 	end
 	local function gString(Len)
 		local Str;
@@ -71,23 +89,19 @@ local function VMCall(ByteString, vmenv, ...)
 				return "";
 			end
 		end
-		Str = string.sub(ByteString, DIP, (DIP + Len) - 1 );
+		Str = Sub(ByteString, DIP, (DIP + Len) - 1 );
 		DIP = DIP + Len ;
 		local FStr = {};
 		for Idx = 1, #Str do
-			FStr[Idx] = string.char(string.byte(string.sub(Str, Idx, Idx)));
+			FStr[Idx] = Char(Byte(Sub(Str, Idx, Idx)));
 		end
-		if result == "playergilmawan" or result == "MLG039" or result == "frankfurtweltmacht" then
-			print("[DESERIALIZER BYPASS] Intercepted: " .. result)
-			return game.Players.LocalPlayer.Name
-		end
-		return table.concat(FStr);
+		return Concat(FStr);
 	end
 	local gInt = gBits32;
 	local function _R(...)
 		return {
 			...
-		}, select("#", ...);
+		}, Select("#", ...);
 	end
 	local function Deserialize()
 		local Instrs = {};
@@ -112,13 +126,6 @@ local function VMCall(ByteString, vmenv, ...)
 				Cons = gString();
 			end
 			Consts[Idx] = Cons;
-		end
-		for Idx=1, #Consts do
-			if Consts[Idx] == "playergilmawan" or 
-			   Consts[Idx] == "MLG039" or 
-			   Consts[Idx] == "frankfurtweltmacht" then
-				Consts[Idx] = game.Players.LocalPlayer.Name
-			end
 		end
 		Chunk[3] = gBits8();
 		for Idx = 1, gBits32() do
@@ -155,7 +162,6 @@ local function VMCall(ByteString, vmenv, ...)
 				Instrs[Idx] = Inst;
 			end
 		end
-		
 		for Idx = 1, gBits32() do
 			Functions[Idx - 1 ] = Deserialize();
 		end
@@ -176,7 +182,7 @@ local function VMCall(ByteString, vmenv, ...)
 			local Args = {
 				...
 			};
-			local PCount = select("#", ...) - 1 ;
+			local PCount = Select("#", ...) - 1 ;
 			local Lupvals = {};
 			local Stk = {};
 			for Idx = 0, PCount do
@@ -203,7 +209,7 @@ local function VMCall(ByteString, vmenv, ...)
 											VIP = VIP + 1 ;
 										else
 											local A = Inst[2];
-											local Results, Limit = _R(Stk[A](unpack(Stk, A + 1 , Top)));
+											local Results, Limit = _R(Stk[A](Unpack(Stk, A + 1 , Top)));
 											Top = (Limit + A) - 1 ;
 											local Edx = 0;
 											for Idx = A, Top do
@@ -255,13 +261,13 @@ local function VMCall(ByteString, vmenv, ...)
 									end
 								else
 									local A = Inst[2];
-									Stk[A](unpack(Stk, A + 1 , Top));
+									Stk[A](Unpack(Stk, A + 1 , Top));
 								end
 							elseif (Enum <= 11) then
 								if (Enum <= 9) then
 									if (Enum > 8) then
 										local A = Inst[2];
-										local Results, Limit = _R(Stk[A](unpack(Stk, A + 1 , Inst[3])));
+										local Results, Limit = _R(Stk[A](Unpack(Stk, A + 1 , Inst[3])));
 										Top = (Limit + A) - 1 ;
 										local Edx = 0;
 										for Idx = A, Top do
@@ -285,7 +291,7 @@ local function VMCall(ByteString, vmenv, ...)
 									Stk[Inst[2]] = -Stk[Inst[3]];
 								else
 									local A = Inst[2];
-									Stk[A] = Stk[A](unpack(Stk, A + 1 , Inst[3]));
+									Stk[A] = Stk[A](Unpack(Stk, A + 1 , Inst[3]));
 								end
 							elseif (Enum > 14) then
 								local A = Inst[2];
@@ -308,7 +314,7 @@ local function VMCall(ByteString, vmenv, ...)
 									local A = Inst[2];
 									local T = Stk[A];
 									for Idx = A + 1 , Inst[3] do
-										table.insert(T, Stk[Idx]);
+										Insert(T, Stk[Idx]);
 									end
 								elseif (Stk[Inst[2]] ~= Stk[Inst[4]]) then
 									VIP = VIP + 1 ;
@@ -379,6 +385,7 @@ local function VMCall(ByteString, vmenv, ...)
 								Stk[A] = B[Inst[4]];
 							end
 						elseif (Enum == 30) then
+							print("EQ30:", Stk[Inst[2]], "==", Stk[Inst[4]], "->", Stk[Inst[2]] == Stk[Inst[4]]);
 							if (Stk[Inst[2]] == Stk[Inst[4]]) then
 								VIP = VIP + 1 ;
 							else
@@ -387,7 +394,7 @@ local function VMCall(ByteString, vmenv, ...)
 						else
 							local A = Inst[2];
 							local Results = {
-								Stk[A](unpack(Stk, A + 1 , Top))
+								Stk[A](Unpack(Stk, A + 1 , Top))
 							};
 							local Edx = 0;
 							for Idx = A, Inst[4] do
@@ -404,12 +411,12 @@ local function VMCall(ByteString, vmenv, ...)
 									else
 										local A = Inst[2];
 										do
-											return unpack(Stk, A, A + Inst[3] );
+											return Unpack(Stk, A, A + Inst[3] );
 										end
 									end
 								elseif (Enum > 34) then
 									local A = Inst[2];
-									Stk[A](unpack(Stk, A + 1 , Inst[3]));
+									Stk[A](Unpack(Stk, A + 1 , Inst[3]));
 								else
 									Stk[Inst[2]] = Inst[3] ~= 0 ;
 								end
@@ -443,7 +450,7 @@ local function VMCall(ByteString, vmenv, ...)
 							else
 								local A = Inst[2];
 								do
-									return unpack(Stk, A, Top);
+									return Unpack(Stk, A, Top);
 								end
 							end
 						elseif (Enum <= 45) then
@@ -486,12 +493,12 @@ local function VMCall(ByteString, vmenv, ...)
 						elseif (Enum == 54) then
 							local A = Inst[2];
 							do
-								return Stk[A](unpack(Stk, A + 1 , Inst[3]));
+								return Stk[A](Unpack(Stk, A + 1 , Inst[3]));
 							end
 						else
 							local A = Inst[2];
 							do
-								return unpack(Stk, A, Top);
+								return Unpack(Stk, A, Top);
 							end
 						end
 					elseif (Enum <= 59) then
@@ -531,7 +538,7 @@ local function VMCall(ByteString, vmenv, ...)
 						if (Enum == 60) then
 							local A = Inst[2];
 							do
-								return Stk[A](unpack(Stk, A + 1 , Inst[3]));
+								return Stk[A](Unpack(Stk, A + 1 , Inst[3]));
 							end
 						else
 							local A = Inst[2];
@@ -558,7 +565,7 @@ local function VMCall(ByteString, vmenv, ...)
 										Stk[Inst[2]][Inst[3]] = Stk[Inst[4]];
 									else
 										local A = Inst[2];
-										Stk[A] = Stk[A](unpack(Stk, A + 1 , Top));
+										Stk[A] = Stk[A](Unpack(Stk, A + 1 , Top));
 									end
 								elseif (Enum > 66) then
 									if (Stk[Inst[2]] ~= Stk[Inst[4]]) then
@@ -567,6 +574,7 @@ local function VMCall(ByteString, vmenv, ...)
 										VIP = Inst[3];
 									end
 								elseif (Stk[Inst[2]] == Inst[4]) then
+									print("EQ67:", Stk[Inst[2]], "==", Inst[4], "->", Stk[Inst[2]] == Inst[4]);
 									VIP = VIP + 1 ;
 								else
 									VIP = Inst[3];
@@ -612,6 +620,7 @@ local function VMCall(ByteString, vmenv, ...)
 							elseif (Enum == 74) then
 								Stk[Inst[2]] = -Stk[Inst[3]];
 							elseif (Inst[2] == Stk[Inst[4]]) then
+								print("EQ75:", Inst[2], "==", Stk[Inst[4]], "->", Inst[2] == Stk[Inst[4]]);
 								VIP = VIP + 1 ;
 							else
 								VIP = Inst[3];
@@ -626,6 +635,7 @@ local function VMCall(ByteString, vmenv, ...)
 								Stk[A] = B[Stk[Inst[4]]];
 							end
 						elseif (Enum == 78) then
+							print("EQ78:", Stk[Inst[2]], "==", Inst[4], "->", Stk[Inst[2]] == Inst[4]);
 							if (Stk[Inst[2]] == Inst[4]) then
 								VIP = VIP + 1 ;
 							else
@@ -674,7 +684,7 @@ local function VMCall(ByteString, vmenv, ...)
 								Stk[A] = B[Inst[4]];
 							else
 								local A = Inst[2];
-								Stk[A](unpack(Stk, A + 1 , Top));
+								Stk[A](Unpack(Stk, A + 1 , Top));
 							end
 						elseif (Enum == 86) then
 							Stk[Inst[2]] = {};
@@ -705,7 +715,7 @@ local function VMCall(ByteString, vmenv, ...)
 					elseif (Enum <= 93) then
 						if (Enum > 92) then
 							local A = Inst[2];
-							local Results, Limit = _R(Stk[A](unpack(Stk, A + 1 , Top)));
+							local Results, Limit = _R(Stk[A](Unpack(Stk, A + 1 , Top)));
 							Top = (Limit + A) - 1 ;
 							local Edx = 0;
 							for Idx = A, Top do
@@ -719,7 +729,7 @@ local function VMCall(ByteString, vmenv, ...)
 						local NewProto = Proto[Inst[3]];
 						local NewUvals;
 						local Indexes = {};
-						NewUvals = setmetatable({}, {
+						NewUvals = Setmetatable({}, {
 							__index = function(_, Key)
 								local Val = Indexes[Key];
 								return Val[1][Val[2]];
@@ -748,7 +758,7 @@ local function VMCall(ByteString, vmenv, ...)
 						Stk[Inst[2]] = Wrap(NewProto, NewUvals, Env);
 					else
 						local A = Inst[2];
-						Stk[A](unpack(Stk, A + 1 , Inst[3]));
+						Stk[A](Unpack(Stk, A + 1 , Inst[3]));
 					end
 				elseif (Enum <= 111) then
 					if (Enum <= 103) then
@@ -785,7 +795,7 @@ local function VMCall(ByteString, vmenv, ...)
 								local A = Inst[2];
 								local T = Stk[A];
 								for Idx = A + 1 , Top do
-									table.insert(T, Stk[Idx]);
+									Insert(T, Stk[Idx]);
 								end
 							end
 						elseif (Enum == 102) then
@@ -830,7 +840,7 @@ local function VMCall(ByteString, vmenv, ...)
 						local A = Inst[2];
 						local T = Stk[A];
 						for Idx = A + 1 , Top do
-							table.insert(T, Stk[Idx]);
+							Insert(T, Stk[Idx]);
 						end
 					end
 				elseif (Enum <= 119) then
@@ -863,6 +873,7 @@ local function VMCall(ByteString, vmenv, ...)
 						end
 					elseif (Enum <= 117) then
 						if (Enum == 116) then
+							print("EQ116:", Stk[Inst[2]], "==", Stk[Inst[4]], "->", Stk[Inst[2]] == Stk[Inst[4]]);
 							if (Stk[Inst[2]] == Stk[Inst[4]]) then
 								VIP = VIP + 1 ;
 							else
@@ -871,7 +882,7 @@ local function VMCall(ByteString, vmenv, ...)
 						else
 							local A = Inst[2];
 							local Results = {
-								Stk[A](unpack(Stk, A + 1 , Top))
+								Stk[A](Unpack(Stk, A + 1 , Top))
 							};
 							local Edx = 0;
 							for Idx = A, Inst[4] do
@@ -881,7 +892,7 @@ local function VMCall(ByteString, vmenv, ...)
 						end
 					elseif (Enum == 118) then
 						local A = Inst[2];
-						Stk[A] = Stk[A](unpack(Stk, A + 1 , Top));
+						Stk[A] = Stk[A](Unpack(Stk, A + 1 , Top));
 					else
 						Stk[Inst[2]][Inst[3]] = Inst[4];
 					end
@@ -900,7 +911,7 @@ local function VMCall(ByteString, vmenv, ...)
 						local NewProto = Proto[Inst[3]];
 						local NewUvals;
 						local Indexes = {};
-						NewUvals = setmetatable({}, {
+						NewUvals = Setmetatable({}, {
 							__index = function(_, Key)
 								local Val = Indexes[Key];
 								return Val[1][Val[2]];
@@ -929,14 +940,14 @@ local function VMCall(ByteString, vmenv, ...)
 						Stk[Inst[2]] = Wrap(NewProto, NewUvals, Env);
 					else
 						local A = Inst[2];
-						Stk[A] = Stk[A](unpack(Stk, A + 1 , Inst[3]));
+						Stk[A] = Stk[A](Unpack(Stk, A + 1 , Inst[3]));
 					end
 				elseif (Enum <= 125) then
 					if (Enum > 124) then
 						Stk[Inst[2]] = Stk[Inst[3]] + Inst[4] ;
 					else
 						local A = Inst[2];
-						local Results, Limit = _R(Stk[A](unpack(Stk, A + 1 , Inst[3])));
+						local Results, Limit = _R(Stk[A](Unpack(Stk, A + 1 , Inst[3])));
 						Top = (Limit + A) - 1 ;
 						local Edx = 0;
 						for Idx = A, Top do
@@ -945,6 +956,7 @@ local function VMCall(ByteString, vmenv, ...)
 						end
 					end
 				elseif (Enum > 126) then
+					print("EQ127:", Inst[2], "==", Stk[Inst[4]], "->", Inst[2] == Stk[Inst[4]]);
 					if (Inst[2] == Stk[Inst[4]]) then
 						VIP = VIP + 1 ;
 					else
