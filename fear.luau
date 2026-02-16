@@ -1,7 +1,7 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
--- _G.flaxeweather_GEAR="PLACEHOLDER"
+_G.flaxeweather_GEAR="Rain"
 local ReplicatedStorage=game.ReplicatedStorage
 local LocalPlayer=game.Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
@@ -26,10 +26,10 @@ local function getWeatherList()
 end
 
 local this_thing =
-    "_G.flaxeweather_GEAR=" .. tostring(_G.flaxeweather_GEAR) .. [[
-loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/feay.luau"))()
-]]
+    "_G.flaxeweather_GEAR=\"" .. tostring(_G.flaxeweather_GEAR)..  "\"" .. [[
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/fear.luau"))()
+]]
 
 local function queue(code)
     if queue_on_teleport then
