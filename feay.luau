@@ -1,7 +1,7 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
--- _G.flaxeweather_GEAR="Valentines"
+_G.flaxeweather_GEAR="PLACEHOLDER"
 local ReplicatedStorage=game.ReplicatedStorage
 local LocalPlayer=game.Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
