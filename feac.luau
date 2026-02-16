@@ -1,7 +1,6 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-_G.flaxeweather_GEAR="Rain"
 local ReplicatedStorage=game.ReplicatedStorage
 local LocalPlayer=game.Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
@@ -28,7 +27,7 @@ end
 local this_thing =
     "_G.flaxeweather_GEAR=\"" .. tostring(_G.flaxeweather_GEAR)..  "\"" .. [[
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/fear.luau"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/feac.luau"))()
 ]]
 
 local function queue(code)
@@ -45,7 +44,7 @@ end
 
 --AuroraBorealis Blizzard CosmicShower Default Eruption Gravebound Rain Sandstorm Snowy Thunderstorm Underwater Valentines
 
-if not _G.flaxeweather_GEAR then
+if _G.flaxeweather_GEAR==nil then
 	print("no weather selected")
 else
 	if table.find(getWeatherList(),_G.flaxeweather_GEAR) then
