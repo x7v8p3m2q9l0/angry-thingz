@@ -1,6 +1,7 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
+_G.flaxeweather_GEAR="Valentines"
 local ReplicatedStorage=game.ReplicatedStorage
 local LocalPlayer=game.Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
@@ -25,7 +26,7 @@ local function getWeatherList()
 end
 
 local this_thing=[[
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/feau.luau"))()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/fear.luau"))()
 ]]
 
 --AuroraBorealis Blizzard CosmicShower Default Eruption Gravebound Rain Sandstorm Snowy Thunderstorm Underwater Valentines
@@ -33,7 +34,7 @@ local this_thing=[[
 if not _G.flaxeweather_GEAR then
 	print("no weather selected")
 else
-	if table.find(_G.flaxeweather_GEAR, getWeatherList()) then
+	if table.find(getWeatherList(),_G.flaxeweather_GEAR) then
 		if PlayerGui.HUD.MainHolder.TopHolder.WeatherDisplay.TextLabel.Text==_G.flaxeweather_GEAR then
 			print("found")
 			
@@ -55,4 +56,3 @@ else
 		end
 	end
 end
-
