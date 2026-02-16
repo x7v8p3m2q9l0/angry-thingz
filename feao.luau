@@ -26,7 +26,7 @@ local function getWeatherList()
 end
 
 local this_thing=[[
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/fear.luau"))()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/feao.luau"))()
 ]]
 
 --AuroraBorealis Blizzard CosmicShower Default Eruption Gravebound Rain Sandstorm Snowy Thunderstorm Underwater Valentines
@@ -48,7 +48,7 @@ else
 			end
 
 			if #servers > 0 then
-				queue_on_teleport()
+				queue_on_teleport(this_thing)
 				TeleportService:TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], LocalPlayer)
 			else
 				return notify("Serverhop", "Couldn't find a server.")
