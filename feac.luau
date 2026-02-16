@@ -1,7 +1,7 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
--- _G.flaxeweather_GEAR="Rain"
+
 _G.flaxeweather_HOP_ATTEMPTS = _G.flaxeweather_HOP_ATTEMPTS or 0
 _G.flaxeweather_MAX_ATTEMPTS = 5
 
@@ -36,7 +36,7 @@ local this_thing =
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-task.wait(3)
+task.wait(6)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/feac.luau"))()
 ]]
 
