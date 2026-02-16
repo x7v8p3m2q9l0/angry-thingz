@@ -1,7 +1,7 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-_G.flaxeweather_GEAR="Valentines"
+-- _G.flaxeweather_GEAR="Valentines"
 local ReplicatedStorage=game.ReplicatedStorage
 local LocalPlayer=game.Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
@@ -53,12 +53,12 @@ else
 		else
 			if body and body.data then
 				for i, v in next, body.data do
-					if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < (v.maxPlayers) and v.id ~= JobId then
+					if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < (v.maxPlayers) and v.id ~= game.JobId then
 						table.insert(servers, 1, v.id)
 					end
 				end
 			end
-
+			task.wait(5) -- avoid shits
 			if #servers > 0 then
 				queue(this_thing)
 				TeleportService:TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], LocalPlayer)
