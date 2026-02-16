@@ -26,8 +26,20 @@ local function getWeatherList()
 end
 
 local this_thing=[[
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/feao.luau"))()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/feay.luau"))()
 ]]
+
+local function queue(code)
+    if queue_on_teleport then
+        queue_on_teleport(code)
+    elseif syn and syn.queue_on_teleport then
+        syn.queue_on_teleport(code)
+    elseif fluxus and fluxus.queue_on_teleport then
+        fluxus.queue_on_teleport(code)
+    else
+        warn("Teleport queue not supported in this executor")
+    end
+end
 
 --AuroraBorealis Blizzard CosmicShower Default Eruption Gravebound Rain Sandstorm Snowy Thunderstorm Underwater Valentines
 
@@ -35,7 +47,7 @@ if not _G.flaxeweather_GEAR then
 	print("no weather selected")
 else
 	if table.find(getWeatherList(),_G.flaxeweather_GEAR) then
-		if PlayerGui.HUD.MainHolder.TopHolder.WeatherDisplay.TextLabel.Text==_G.flaxeweather_GEAR then
+		if PlayerGui:WaitForChild('HUD'):WaitForChild('MainHolder'):WaitForChild('TopHolder'):WaitForChild('WeatherDisplay'):WaitForChild('TextLabel').Text==_G.flaxeweather_GEAR then
 			print("found")
 			
 		else
@@ -48,7 +60,7 @@ else
 			end
 
 			if #servers > 0 then
-				queue_on_teleport(this_thing)
+				queue(this_thing)
 				TeleportService:TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], LocalPlayer)
 			else
 				return notify("Serverhop", "Couldn't find a server.")
