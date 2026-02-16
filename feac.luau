@@ -26,7 +26,7 @@ end
 
 local this_thing =
     "_G.flaxeweather_GEAR=\"" .. tostring(_G.flaxeweather_GEAR)..  "\"" .. [[
-
+task.wait(1)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/feac.luau"))()
 ]]
 
