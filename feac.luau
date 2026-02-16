@@ -36,7 +36,7 @@ local this_thing =
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-task.wait(2)
+task.wait(3)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/x7v8p3m2q9l0/angry-thingz/refs/heads/main/feac.luau"))()
 ]]
 
@@ -76,7 +76,7 @@ else
                 end
             end
             
-            task.wait(5)
+            task.wait(2)
             
             if #servers > 0 then
                 queue(this_thing)
